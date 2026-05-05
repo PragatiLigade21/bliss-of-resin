@@ -41,7 +41,7 @@ const products = [
     name: "Ocean Blue Resin Tray",
     price: 1200,
     originalPrice: 1500,
-    image: "/images/tray.jpg",
+    image: "https://images.unsplash.com/photo-1532368946481-86c4303674ea?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8UmVzaW4lMjBUcmF5fGVufDB8fDB8fHww",
     description: "Beautiful ocean blue resin tray with wave patterns, perfect for serving or decoration",
     category: "Resin Trays",
     stock: 15,
