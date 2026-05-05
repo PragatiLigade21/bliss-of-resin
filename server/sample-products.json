@@ -1,0 +1,839 @@
+[
+  {
+    "name": "Ocean Blue Resin Tray",
+    "price": 1200,
+    "image": "images/tray.jpg",
+    "description": "Beautiful ocean blue resin tray with wave patterns, perfect for serving or decoration",
+    "category": "Resin Trays",
+    "rating": 4.5,
+    "stock": 15
+  },
+  {
+    "name": "Sunset Orange Tray",
+    "price": 1100,
+    "image": "images/tray.jpg",
+    "description": "Vibrant sunset orange resin tray with flowing designs",
+    "category": "Resin Trays",
+    "rating": 4.2,
+    "stock": 22
+  },
+  {
+    "name": "Forest Green Serving Tray",
+    "price": 1350,
+    "image": "images/tray.jpg",
+    "description": "Elegant forest green resin tray with leaf motifs",
+    "category": "Resin Trays",
+    "rating": 4.7,
+    "stock": 18
+  },
+  {
+    "name": "Purple Galaxy Tray",
+    "price": 1500,
+    "image": "images/tray.jpg",
+    "description": "Mesmerizing purple galaxy resin tray with cosmic patterns",
+    "category": "Resin Trays",
+    "rating": 4.8,
+    "stock": 12
+  },
+  {
+    "name": "Rose Gold Tray",
+    "price": 1400,
+    "image": "images/tray.jpg",
+    "description": "Luxurious rose gold resin tray with metallic finish",
+    "category": "Resin Trays",
+    "rating": 4.6,
+    "stock": 20
+  },
+  {
+    "name": "Abstract Art Tray",
+    "price": 1250,
+    "image": "images/tray.jpg",
+    "description": "Modern abstract art resin tray with colorful swirls",
+    "category": "Resin Trays",
+    "rating": 4.3,
+    "stock": 16
+  },
+  {
+    "name": "Marble Effect Tray",
+    "price": 1600,
+    "image": "images/tray.jpg",
+    "description": "Elegant marble effect resin tray with natural stone patterns",
+    "category": "Resin Trays",
+    "rating": 4.9,
+    "stock": 14
+  },
+  {
+    "name": "Floral Pink Tray",
+    "price": 1150,
+    "image": "images/tray.jpg",
+    "description": "Delicate floral pink resin tray with embedded flowers",
+    "category": "Resin Trays",
+    "rating": 4.4,
+    "stock": 19
+  },
+  {
+    "name": "Geometric Black Tray",
+    "price": 1300,
+    "image": "images/tray.jpg",
+    "description": "Bold geometric black resin tray with modern design",
+    "category": "Resin Trays",
+    "rating": 4.5,
+    "stock": 17
+  },
+  {
+    "name": "Butterfly Garden Tray",
+    "price": 1450,
+    "image": "images/tray.jpg",
+    "description": "Whimsical butterfly garden resin tray with colorful insects",
+    "category": "Resin Trays",
+    "rating": 4.7,
+    "stock": 13
+  },
+  {
+    "name": "Crystal Clear Tray",
+    "price": 1700,
+    "image": "images/tray.jpg",
+    "description": "Crystal clear resin tray showcasing embedded treasures",
+    "category": "Resin Trays",
+    "rating": 4.8,
+    "stock": 11
+  },
+  {
+    "name": "Desert Sand Tray",
+    "price": 1180,
+    "image": "images/tray.jpg",
+    "description": "Warm desert sand resin tray with earthy tones",
+    "category": "Resin Trays",
+    "rating": 4.2,
+    "stock": 21
+  },
+  {
+    "name": "Rainbow Swirl Tray",
+    "price": 1550,
+    "image": "images/tray.jpg",
+    "description": "Vibrant rainbow swirl resin tray with colorful patterns",
+    "category": "Resin Trays",
+    "rating": 4.6,
+    "stock": 15
+  },
+  {
+    "name": "Wood Grain Tray",
+    "price": 1650,
+    "image": "images/tray.jpg",
+    "description": "Realistic wood grain resin tray with natural wood patterns",
+    "category": "Resin Trays",
+    "rating": 4.9,
+    "stock": 10
+  },
+  {
+    "name": "Minimalist White Tray",
+    "price": 1050,
+    "image": "images/tray.jpg",
+    "description": "Clean minimalist white resin tray for modern decor",
+    "category": "Resin Trays",
+    "rating": 4.1,
+    "stock": 25
+  },
+  {
+    "name": "Tropical Paradise Tray",
+    "price": 1750,
+    "image": "images/tray.jpg",
+    "description": "Exotic tropical paradise resin tray with palm leaves and flowers",
+    "category": "Resin Trays",
+    "rating": 4.8,
+    "stock": 9
+  },
+  {
+    "name": "Metallic Silver Tray",
+    "price": 1480,
+    "image": "images/tray.jpg",
+    "description": "Shiny metallic silver resin tray with reflective finish",
+    "category": "Resin Trays",
+    "rating": 4.5,
+    "stock": 16
+  },
+  {
+    "name": "Autumn Leaves Tray",
+    "price": 1320,
+    "image": "images/tray.jpg",
+    "description": "Beautiful autumn leaves resin tray with fall colors",
+    "category": "Resin Trays",
+    "rating": 4.4,
+    "stock": 18
+  },
+  {
+    "name": "Neon Glow Tray",
+    "price": 1580,
+    "image": "images/tray.jpg",
+    "description": "Eye-catching neon glow resin tray with fluorescent colors",
+    "category": "Resin Trays",
+    "rating": 4.7,
+    "stock": 12
+  },
+  {
+    "name": "Vintage Pattern Tray",
+    "price": 1420,
+    "image": "images/tray.jpg",
+    "description": "Vintage inspired resin tray with retro patterns",
+    "category": "Resin Trays",
+    "rating": 4.3,
+    "stock": 20
+  },
+  {
+    "name": "Ocean Waves Tray",
+    "price": 1680,
+    "image": "images/tray.jpg",
+    "description": "Dynamic ocean waves resin tray with flowing water patterns",
+    "category": "Resin Trays",
+    "rating": 4.9,
+    "stock": 8
+  },
+  {
+    "name": "Cherry Blossom Tray",
+    "price": 1520,
+    "image": "images/tray.jpg",
+    "description": "Delicate cherry blossom resin tray with pink flowers",
+    "category": "Resin Trays",
+    "rating": 4.6,
+    "stock": 14
+  },
+  {
+    "name": "Galaxy Nebula Tray",
+    "price": 1850,
+    "image": "images/tray.jpg",
+    "description": "Stunning galaxy nebula resin tray with cosmic colors",
+    "category": "Resin Trays",
+    "rating": 4.9,
+    "stock": 7
+  },
+  {
+    "name": "Safari Animal Tray",
+    "price": 1620,
+    "image": "images/tray.jpg",
+    "description": "Fun safari animal resin tray with wildlife motifs",
+    "category": "Resin Trays",
+    "rating": 4.5,
+    "stock": 13
+  },
+  {
+    "name": "Golden Earrings Set",
+    "price": 2500,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Elegant golden resin earrings with crystal accents",
+    "category": "Jewelry",
+    "rating": 4.7,
+    "stock": 12
+  },
+  {
+    "name": "Silver Necklace",
+    "price": 3200,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Stunning silver resin necklace with pendant",
+    "category": "Jewelry",
+    "rating": 4.8,
+    "stock": 8
+  },
+  {
+    "name": "Rose Gold Bracelet",
+    "price": 1800,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Delicate rose gold resin bracelet with charms",
+    "category": "Jewelry",
+    "rating": 4.5,
+    "stock": 15
+  },
+  {
+    "name": "Crystal Ring",
+    "price": 1500,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Beautiful crystal resin ring with gemstone effect",
+    "category": "Jewelry",
+    "rating": 4.6,
+    "stock": 18
+  },
+  {
+    "name": "Pearl Earrings",
+    "price": 2200,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Classic pearl resin earrings with gold accents",
+    "category": "Jewelry",
+    "rating": 4.4,
+    "stock": 20
+  },
+  {
+    "name": "Diamond Look Necklace",
+    "price": 4500,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Luxurious diamond look resin necklace",
+    "category": "Jewelry",
+    "rating": 4.9,
+    "stock": 6
+  },
+  {
+    "name": "Bohemian Bracelet Set",
+    "price": 2800,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Bohemian style resin bracelet set with beads",
+    "category": "Jewelry",
+    "rating": 4.3,
+    "stock": 14
+  },
+  {
+    "name": "Minimalist Ring",
+    "price": 1200,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Clean minimalist resin ring design",
+    "category": "Jewelry",
+    "rating": 4.2,
+    "stock": 22
+  },
+  {
+    "name": "Layered Necklace",
+    "price": 3500,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Multi-layered resin necklace with mixed metals",
+    "category": "Jewelry",
+    "rating": 4.7,
+    "stock": 10
+  },
+  {
+    "name": "Statement Earrings",
+    "price": 2900,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Bold statement resin earrings with geometric shapes",
+    "category": "Jewelry",
+    "rating": 4.5,
+    "stock": 13
+  },
+  {
+    "name": "Anklet Chain",
+    "price": 1600,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Delicate resin anklet with chain design",
+    "category": "Jewelry",
+    "rating": 4.1,
+    "stock": 25
+  },
+  {
+    "name": "Cuff Bracelet",
+    "price": 2400,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Wide cuff resin bracelet with patterns",
+    "category": "Jewelry",
+    "rating": 4.6,
+    "stock": 16
+  },
+  {
+    "name": "Pendant Necklace",
+    "price": 3100,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Elegant pendant resin necklace with chain",
+    "category": "Jewelry",
+    "rating": 4.8,
+    "stock": 9
+  },
+  {
+    "name": "Stackable Rings",
+    "price": 1900,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Set of stackable resin rings in different styles",
+    "category": "Jewelry",
+    "rating": 4.4,
+    "stock": 17
+  },
+  {
+    "name": "Choker Necklace",
+    "price": 2100,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Trendy choker style resin necklace",
+    "category": "Jewelry",
+    "rating": 4.3,
+    "stock": 19
+  },
+  {
+    "name": "Drop Earrings",
+    "price": 2700,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Elegant drop resin earrings with crystals",
+    "category": "Jewelry",
+    "rating": 4.7,
+    "stock": 11
+  },
+  {
+    "name": "Bangle Set",
+    "price": 3300,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Set of resin bangles in coordinating colors",
+    "category": "Jewelry",
+    "rating": 4.5,
+    "stock": 12
+  },
+  {
+    "name": "Lariat Necklace",
+    "price": 3800,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Unique lariat style resin necklace",
+    "category": "Jewelry",
+    "rating": 4.8,
+    "stock": 7
+  },
+  {
+    "name": "Toe Ring",
+    "price": 800,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Delicate resin toe ring with crystal",
+    "category": "Jewelry",
+    "rating": 4.0,
+    "stock": 30
+  },
+  {
+    "name": "Hair Accessory Set",
+    "price": 1400,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Resin hair clips and accessories set",
+    "category": "Jewelry",
+    "rating": 4.2,
+    "stock": 21
+  },
+  {
+    "name": "Brooch Pin",
+    "price": 1700,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Elegant resin brooch pin for jackets",
+    "category": "Jewelry",
+    "rating": 4.4,
+    "stock": 15
+  },
+  {
+    "name": "Keychain Jewelry",
+    "price": 600,
+    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    "description": "Decorative resin keychain with jewelry elements",
+    "category": "Jewelry",
+    "rating": 3.9,
+    "stock": 35
+  },
+  {
+    "name": "Abstract Wall Art",
+    "price": 2800,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Modern abstract resin wall art with geometric patterns",
+    "category": "Home Decor",
+    "rating": 4.6,
+    "stock": 10
+  },
+  {
+    "name": "Floral Wall Hanging",
+    "price": 2200,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Beautiful floral resin wall hanging with pressed flowers",
+    "category": "Home Decor",
+    "rating": 4.5,
+    "stock": 14
+  },
+  {
+    "name": "Mirror Frame",
+    "price": 3500,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Decorative resin mirror frame with intricate designs",
+    "category": "Home Decor",
+    "rating": 4.7,
+    "stock": 8
+  },
+  {
+    "name": "Table Centerpiece",
+    "price": 1900,
+    "image": "images/table.jpg",
+    "description": "Elegant resin table centerpiece for dining room",
+    "category": "Home Decor",
+    "rating": 4.4,
+    "stock": 16
+  },
+  {
+    "name": "Bookends Set",
+    "price": 2400,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Matching resin bookends with literary motifs",
+    "category": "Home Decor",
+    "rating": 4.3,
+    "stock": 12
+  },
+  {
+    "name": "Vase Decor",
+    "price": 1600,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Modern resin vase with geometric patterns",
+    "category": "Home Decor",
+    "rating": 4.2,
+    "stock": 20
+  },
+  {
+    "name": "Clock Face",
+    "price": 2100,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Decorative resin clock face with artistic design",
+    "category": "Home Decor",
+    "rating": 4.5,
+    "stock": 11
+  },
+  {
+    "name": "Photo Frame",
+    "price": 1800,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Custom resin photo frame with personalized designs",
+    "category": "Home Decor",
+    "rating": 4.6,
+    "stock": 15
+  },
+  {
+    "name": "Sculpture Figurine",
+    "price": 3200,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Handcrafted resin sculpture figurine",
+    "category": "Home Decor",
+    "rating": 4.8,
+    "stock": 7
+  },
+  {
+    "name": "Candle Holder",
+    "price": 1400,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Elegant resin candle holder with crystal effects",
+    "category": "Home Decor",
+    "rating": 4.1,
+    "stock": 22
+  },
+  {
+    "name": "Key Holder",
+    "price": 1200,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Decorative resin key holder for entryway",
+    "category": "Home Decor",
+    "rating": 4.0,
+    "stock": 25
+  },
+  {
+    "name": "Coat Rack",
+    "price": 2900,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Modern resin coat rack with hooks",
+    "category": "Home Decor",
+    "rating": 4.4,
+    "stock": 13
+  },
+  {
+    "name": "Letter Holder",
+    "price": 1100,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Functional resin letter holder with design",
+    "category": "Home Decor",
+    "rating": 3.9,
+    "stock": 28
+  },
+  {
+    "name": "Tissue Box Cover",
+    "price": 900,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Decorative resin tissue box cover",
+    "category": "Home Decor",
+    "rating": 4.2,
+    "stock": 30
+  },
+  {
+    "name": "Jewelry Box",
+    "price": 2600,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Elegant resin jewelry storage box",
+    "category": "Home Decor",
+    "rating": 4.7,
+    "stock": 9
+  },
+  {
+    "name": "Planter Pot",
+    "price": 1700,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Modern resin planter pot for indoor plants",
+    "category": "Home Decor",
+    "rating": 4.3,
+    "stock": 18
+  },
+  {
+    "name": "Wall Shelf",
+    "price": 2300,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Floating resin wall shelf for display",
+    "category": "Home Decor",
+    "rating": 4.5,
+    "stock": 11
+  },
+  {
+    "name": "Door Knocker",
+    "price": 1500,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Decorative resin door knocker",
+    "category": "Home Decor",
+    "rating": 4.1,
+    "stock": 19
+  },
+  {
+    "name": "Room Divider Screen",
+    "price": 4500,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Foldable resin room divider screen",
+    "category": "Home Decor",
+    "rating": 4.8,
+    "stock": 5
+  },
+  {
+    "name": "Ceiling Medallion",
+    "price": 3800,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Ornate resin ceiling medallion for chandeliers",
+    "category": "Home Decor",
+    "rating": 4.9,
+    "stock": 6
+  },
+  {
+    "name": "Switch Plate Cover",
+    "price": 600,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Decorative resin switch plate cover",
+    "category": "Home Decor",
+    "rating": 3.8,
+    "stock": 40
+  },
+  {
+    "name": "Soap Dish",
+    "price": 800,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Elegant resin soap dish for bathroom",
+    "category": "Home Decor",
+    "rating": 4.0,
+    "stock": 32
+  },
+  {
+    "name": "Towel Rack",
+    "price": 2000,
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    "description": "Modern resin towel rack with hooks",
+    "category": "Home Decor",
+    "rating": 4.4,
+    "stock": 14
+  },
+  {
+    "name": "Marble Coasters Set",
+    "price": 600,
+    "image": "images/coaster.jpg",
+    "description": "Set of 4 marble effect resin coasters",
+    "category": "Coasters",
+    "rating": 4.3,
+    "stock": 35
+  },
+  {
+    "name": "Wood Grain Coasters",
+    "price": 550,
+    "image": "images/coaster.jpg",
+    "description": "Set of 6 wood grain resin coasters",
+    "category": "Coasters",
+    "rating": 4.2,
+    "stock": 40
+  },
+  {
+    "name": "Floral Design Coasters",
+    "price": 480,
+    "image": "images/coaster.jpg",
+    "description": "Beautiful floral resin coasters set of 4",
+    "category": "Coasters",
+    "rating": 4.4,
+    "stock": 28
+  },
+  {
+    "name": "Geometric Coasters",
+    "price": 520,
+    "image": "images/coaster.jpg",
+    "description": "Modern geometric pattern resin coasters",
+    "category": "Coasters",
+    "rating": 4.1,
+    "stock": 32
+  },
+  {
+    "name": "Ocean Blue Coasters",
+    "price": 580,
+    "image": "images/coaster.jpg",
+    "description": "Ocean blue resin coasters with wave patterns",
+    "category": "Coasters",
+    "rating": 4.5,
+    "stock": 25
+  },
+  {
+    "name": "Abstract Art Coasters",
+    "price": 650,
+    "image": "images/coaster.jpg",
+    "description": "Abstract art resin coasters set",
+    "category": "Coasters",
+    "rating": 4.6,
+    "stock": 22
+  },
+  {
+    "name": "Minimalist White Coasters",
+    "price": 420,
+    "image": "images/coaster.jpg",
+    "description": "Clean minimalist white resin coasters",
+    "category": "Coasters",
+    "rating": 4.0,
+    "stock": 45
+  },
+  {
+    "name": "Galaxy Coasters",
+    "price": 720,
+    "image": "images/coaster.jpg",
+    "description": "Cosmic galaxy resin coasters with stars",
+    "category": "Coasters",
+    "rating": 4.7,
+    "stock": 18
+  },
+  {
+    "name": "Tropical Coasters",
+    "price": 590,
+    "image": "images/coaster.jpg",
+    "description": "Tropical palm resin coasters",
+    "category": "Coasters",
+    "rating": 4.3,
+    "stock": 26
+  },
+  {
+    "name": "Vintage Pattern Coasters",
+    "price": 560,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Vintage inspired resin coasters",
+    "category": "Coasters",
+    "rating": 4.2,
+    "stock": 30
+  },
+  {
+    "name": "Crystal Clear Coasters",
+    "price": 680,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Crystal clear resin coasters with inclusions",
+    "category": "Coasters",
+    "rating": 4.8,
+    "stock": 15
+  },
+  {
+    "name": "Safari Animal Coasters",
+    "price": 630,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Fun safari animal resin coasters",
+    "category": "Coasters",
+    "rating": 4.4,
+    "stock": 24
+  },
+  {
+    "name": "Butterfly Coasters",
+    "price": 540,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Colorful butterfly resin coasters",
+    "category": "Coasters",
+    "rating": 4.5,
+    "stock": 27
+  },
+  {
+    "name": "Neon Glow Coasters",
+    "price": 700,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Neon glow resin coasters for parties",
+    "category": "Coasters",
+    "rating": 4.6,
+    "stock": 20
+  },
+  {
+    "name": "Autumn Leaves Coasters",
+    "price": 570,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Fall themed resin coasters with leaves",
+    "category": "Coasters",
+    "rating": 4.3,
+    "stock": 29
+  },
+  {
+    "name": "Rose Gold Coasters",
+    "price": 610,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Rose gold metallic resin coasters",
+    "category": "Coasters",
+    "rating": 4.4,
+    "stock": 23
+  },
+  {
+    "name": "Cherry Blossom Coasters",
+    "price": 640,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Delicate cherry blossom resin coasters",
+    "category": "Coasters",
+    "rating": 4.7,
+    "stock": 19
+  },
+  {
+    "name": "Desert Sand Coasters",
+    "price": 500,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Warm desert sand resin coasters",
+    "category": "Coasters",
+    "rating": 4.1,
+    "stock": 38
+  },
+  {
+    "name": "Rainbow Swirl Coasters",
+    "price": 670,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Vibrant rainbow swirl resin coasters",
+    "category": "Coasters",
+    "rating": 4.5,
+    "stock": 21
+  },
+  {
+    "name": "Metallic Silver Coasters",
+    "price": 620,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Shiny metallic silver resin coasters",
+    "category": "Coasters",
+    "rating": 4.3,
+    "stock": 25
+  },
+  {
+    "name": "Purple Galaxy Coasters",
+    "price": 690,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Purple galaxy resin coasters with cosmic design",
+    "category": "Coasters",
+    "rating": 4.8,
+    "stock": 16
+  },
+  {
+    "name": "Floral Pink Coasters",
+    "price": 530,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Delicate floral pink resin coasters",
+    "category": "Coasters",
+    "rating": 4.2,
+    "stock": 31
+  },
+  {
+    "name": "Black Geometric Coasters",
+    "price": 550,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Bold black geometric resin coasters",
+    "category": "Coasters",
+    "rating": 4.4,
+    "stock": 28
+  },
+  {
+    "name": "Golden Leaf Coasters",
+    "price": 660,
+    "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+    "description": "Golden leaf resin coasters with metallic finish",
+    "category": "Coasters",
+    "rating": 4.6,
+    "stock": 20
+  }
+]
