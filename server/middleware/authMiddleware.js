@@ -4,7 +4,13 @@ const User = require("../models/User");
 const authMiddleware = async (req, res, next) => {
   try {
     // Get token from header
-    const authHeader = req.header("Authorization");
+    let authHeader = req.header("Authorization");
+    
+    // Fallback to "authorization" header (some clients use lowercase)
+    if (!authHeader) {
+      authHeader = req.header("authorization");
+    }
+
     if (!authHeader) {
       return res.status(401).json({ message: "No token provided, authorization denied" });
     }
@@ -29,6 +35,7 @@ const authMiddleware = async (req, res, next) => {
 
     // Add user info to request (including role for admin check)
     req.user = {
+      _id: user._id, // Add _id for compatibility
       userId: decoded.userId,
       role: user.role || "user",
       isAdmin: user.isAdmin || user.role === "admin"
@@ -40,14 +47,14 @@ const authMiddleware = async (req, res, next) => {
     console.error("❌ Auth middleware error:", error);
 
     if (error.name === "TokenExpiredError") {
-      return res.status(401).json({ message: "Token expired" });
+      return res.status(401).json({ message: "Token expired", error: "Unauthorized" });
     }
 
     if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({ message: "Invalid token" });
+      return res.status(401).json({ message: "Invalid token", error: "Unauthorized" });
     }
 
-    res.status(500).json({ message: "Server error in authentication" });
+    res.status(500).json({ message: "Server error in authentication", error: "Internal Server Error" });
   }
 };
 
