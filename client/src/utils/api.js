@@ -55,7 +55,7 @@ export const productsAPI = {
 
   // Get single product
   getProduct: (productId) => {
-    return apiFetch(`/products/product/${productId}`);
+    return apiFetch(`/products/${productId}`);
   },
 
   // Get categories

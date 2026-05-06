@@ -32,25 +32,25 @@ function FeaturedProducts() {
   }, []);
 
   return (
-    <section className="py-16 md:py-20 bg-cream">
+    <section className="py-24 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-          <div className="text-center md:text-left">
-            <p className="text-sm text-gray-500 uppercase tracking-widest mb-2">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
+          <div className="max-w-xl">
+            <p className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-4">
               Handpicked For You
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Featured Products
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Our Best Sellers
             </h2>
           </div>
           
           <Link
             to="/shop"
-            className="mt-4 md:mt-0 inline-flex items-center gap-2 text-primary hover:text-secondary font-medium transition-colors"
+            className="group inline-flex items-center gap-2 text-gray-900 dark:text-white font-bold hover:text-primary dark:hover:text-primary transition-all"
           >
             View All Products
-            <ArrowRight size={18} />
+            <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
           </Link>
         </div>
 

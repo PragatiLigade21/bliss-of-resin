@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search, Sliders, Grid3x3, List } from "lucide-react";
+import { Search, Sliders, Grid3x3, List, X } from "lucide-react";
 import { Card, Button, LoadingState, EmptyState } from "../components/UI";
 import ProductCard from "../components/ProductCard";
 import FilterPanel from "../components/FilterPanel";
@@ -9,6 +9,7 @@ import PaginationControls from "../components/PaginationControls";
 import Footer from "../components/Footer";
 import { productsAPI } from "../utils/api";
 import { showError } from "../utils/toast";
+import { AnimatePresence } from "framer-motion";
 
 function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -150,20 +151,63 @@ function Shop() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-      {/* Header */}
-      <section className="bg-white dark:bg-gray-800 py-8 border-b border-gray-100 dark:border-gray-700 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Shop</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            {pagination.total} products found
-          </p>
+      {/* Premium Header */}
+      <section className="bg-[#FDF8F5] dark:bg-gray-800 py-16 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-4">Explore Our Creations</p>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+            The Shop
+          </h1>
+          <div className="flex items-center justify-center gap-2 text-gray-500 dark:text-gray-400">
+            <span>Home</span>
+            <span className="text-gray-300 dark:text-gray-600">/</span>
+            <span className="text-gray-900 dark:text-white font-medium">All Products</span>
+          </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Mobile Filter Drawer */}
+        <AnimatePresence>
+          {showFilters && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setShowFilters(false)}
+                className="fixed inset-0 bg-black/50 z-[60] lg:hidden backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed top-0 left-0 h-full w-[85%] max-w-sm bg-white dark:bg-gray-900 z-[70] lg:hidden overflow-y-auto p-6 shadow-2xl"
+              >
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'Playfair Display, serif' }}>Filters</h2>
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+                <FilterPanel
+                  filters={filters}
+                  categories={categories}
+                  onFilterChange={handleFilterChange}
+                  onClearFilters={handleClearFilters}
+                />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar Filters - Desktop */}
-          <div className="hidden lg:block w-64">
+          <div className="hidden lg:block w-72 flex-shrink-0">
             <FilterPanel
               filters={filters}
               categories={categories}
@@ -175,134 +219,109 @@ function Shop() {
           {/* Main Content */}
           <div className="flex-1">
             {/* Search and Controls Bar */}
-            <div className="mb-6 space-y-4">
+            <div className="flex flex-col md:flex-row gap-6 items-center justify-between mb-10">
               {/* Search Bar */}
-              <div className="relative">
-                <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+              <div className="relative w-full md:max-w-md group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors" size={20} />
                 <input
                   type="text"
                   placeholder="Search products..."
                   value={filters.keyword}
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
+                  className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
                 />
               </div>
 
-              {/* Controls Bar */}
-              <div className="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
-                <div className="flex items-center gap-2">
-                  {/* Mobile Filter Button */}
+              {/* View & Sort Controls */}
+              <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
                   <button
-                    onClick={() => setShowFilters(!showFilters)}
-                    className="lg:hidden flex items-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
+                    onClick={() => setViewMode("grid")}
+                    className={`p-2 rounded-md transition-all ${viewMode === "grid" ? "bg-white dark:bg-gray-700 shadow-sm text-primary" : "text-gray-400 hover:text-gray-600"}`}
                   >
-                    <Sliders size={18} />
-                    Filters
+                    <Grid3x3 size={20} />
                   </button>
-
-                  {/* View Mode Toggle */}
-                  <div className="hidden sm:flex items-center gap-2 border-l border-gray-300 dark:border-gray-600 pl-4">
-                    <button
-                      onClick={() => setViewMode("grid")}
-                      className={`p-2 rounded transition-colors duration-300 ${
-                        viewMode === "grid"
-                          ? "bg-primary text-white"
-                          : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      <Grid3x3 size={18} />
-                    </button>
-                    <button
-                      onClick={() => setViewMode("list")}
-                      className={`p-2 rounded transition-colors duration-300 ${
-                        viewMode === "list"
-                          ? "bg-primary text-white"
-                          : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      <List size={18} />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white dark:bg-gray-700 shadow-sm text-primary" : "text-gray-400 hover:text-gray-600"}`}
+                  >
+                    <List size={20} />
+                  </button>
                 </div>
 
-                {/* Sort Dropdown */}
+                {/* Mobile Filter Toggle */}
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="lg:hidden flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-full font-bold text-sm hover:bg-gray-50 transition-all shadow-sm"
+                >
+                  <Sliders size={18} />
+                  Filters
+                </button>
+
                 <select
                   value={filters.sort}
                   onChange={(e) => handleFilterChange({ sort: e.target.value })}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
+                  className="px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-full font-bold text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm cursor-pointer"
                 >
-                  <option value="newest">Newest</option>
+                  <option value="newest">Newest First</option>
                   <option value="price-low">Price: Low to High</option>
                   <option value="price-high">Price: High to Low</option>
-                  <option value="rating">Highest Rated</option>
-                  <option value="best-selling">Best Selling</option>
+                  <option value="popular">Most Popular</option>
                 </select>
               </div>
             </div>
 
-            {/* Mobile Filters */}
-            {showFilters && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="lg:hidden mb-6"
-              >
-                <FilterPanel
-                  filters={filters}
-                  categories={categories}
-                  onFilterChange={handleFilterChange}
-                  onClearFilters={handleClearFilters}
-                />
-              </motion.div>
-            )}
+            {/* Results Count */}
+            <div className="mb-6">
+              <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+                Showing <span className="text-gray-900 dark:text-white">{activeProducts.length}</span> of <span className="text-gray-900 dark:text-white">{pagination.total}</span> products
+              </p>
+            </div>
 
             {/* Products Grid/List */}
             {loading ? (
-              <LoadingState message="Loading products..." />
-            ) : errorMessage ? (
-              <EmptyState
-                title="Unable to load products"
-                message={errorMessage}
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div key={i} className="animate-pulse">
+                    <div className="bg-gray-100 dark:bg-gray-800 aspect-[4/5] rounded-3xl mb-4" />
+                    <div className="h-4 bg-gray-100 dark:bg-gray-800 rounded w-2/3 mb-2" />
+                    <div className="h-4 bg-gray-100 dark:bg-gray-800 rounded w-1/3" />
+                  </div>
+                ))}
+              </div>
             ) : activeProducts.length === 0 ? (
-              <EmptyState
-                title="No Products Found"
-                message="Try adjusting your filters or search criteria"
-              />
+              <div className="text-center py-24 bg-gray-50 dark:bg-gray-800/50 rounded-[3rem] border-2 border-dashed border-gray-100 dark:border-gray-700">
+                <EmptyState
+                  title="No products found"
+                  message="Try adjusting your filters or search keywords"
+                  actionLabel="Clear All Filters"
+                  onAction={handleClearFilters}
+                />
+              </div>
             ) : (
-              <>
-                <div
-                  className={
-                    viewMode === "grid"
-                      ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
-                      : "space-y-4 mb-8"
-                  }
-                >
-                  {activeProducts.map((product, index) => (
-                    <motion.div
-                      key={product?._id || index}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <ProductCard product={product} viewMode={viewMode} />
-                    </motion.div>
-                  ))}
-                </div>
+              <div className={`grid gap-8 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
+                {activeProducts.map((product, index) => (
+                  <motion.div
+                    key={product._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: (index % 6) * 0.1 }}
+                  >
+                    <ProductCard product={product} viewMode={viewMode} />
+                  </motion.div>
+                ))}
+              </div>
+            )}
 
-                {/* Pagination */}
-                {pagination.pages > 1 && (
-                  <PaginationControls
-                    page={pagination.page}
-                    pages={pagination.pages}
-                    onPageChange={(page) =>
-                      setPagination(prev => ({ ...prev, page }))
-                    }
-                  />
-                )}
-              </>
+            {/* Pagination */}
+            {pagination.pages > 1 && (
+              <div className="mt-16 flex justify-center">
+                <PaginationControls
+                  currentPage={pagination.page}
+                  totalPages={pagination.pages}
+                  onPageChange={(page) => setPagination(prev => ({ ...prev, page }))}
+                />
+              </div>
             )}
           </div>
         </div>

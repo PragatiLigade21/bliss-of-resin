@@ -8,95 +8,92 @@ import { motion } from "framer-motion";
 
 function Hero() {
   return (
-    <section className="relative min-h-[85vh] lg:min-h-[90vh] overflow-hidden">
-      {/* Background Image with Gradient Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1617103996702-96ff29b1c467?w=1920&q=80')`
-        }}
-      />
+    <section className="relative min-h-[80vh] flex items-center bg-[#FDF8F5] dark:bg-gray-900 overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-[#F5E6E0] dark:bg-gray-800 transform skew-x-12 translate-x-1/4 hidden lg:block" />
       
-      {/* Gradient Overlay - Soft pastel blend from left / Dark mode gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FDF8F5]/95 dark:from-[#111827]/95 via-[#FDF8F5]/80 dark:via-[#1F2937]/80 to-transparent dark:to-transparent" />
-      
-      {/* Decorative blur elements for soft ambiance */}
-      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-[#E8D5D0]/30 rounded-full blur-[100px]" />
-      <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-[#F5E6E0]/40 rounded-full blur-[80px]" />
-
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 lg:py-28 min-h-[85vh] lg:min-h-[90vh] flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center w-full">
-          
-          {/* Left Content - Text aligned left */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="lg:col-span-6 lg:pr-8"
-          >
-            {/* Small elegant heading */}
-            <p className="text-xs sm:text-sm tracking-[0.25em] text-[#9A8A82] dark:text-gray-400 uppercase mb-5 font-medium">
-              Handcrafted with Love
-            </p>
-            
-            {/* Large Serif Heading */}
-            <h1 
-              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#2C2420] dark:text-white mb-7 leading-[1.15] tracking-tight"
-              style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
-            >
-              Beautiful Resin Art for Your Space
-            </h1>
-            
-            {/* Description */}
-            <p className="text-base sm:text-lg text-[#6B5E56] dark:text-gray-300 mb-10 max-w-lg leading-relaxed">
-              Discover our exclusive collection of handcrafted resin pieces. 
-              Each artwork is meticulously created to bring timeless elegance 
-              and natural beauty into your home.
-            </p>
-            
-            {/* CTA Button - Minimal and elegant */}
-            <Link
-              to="/shop"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-[#2C2420] dark:bg-white text-[#FDF8F5] dark:text-black 
-                hover:bg-[#4A3F3A] dark:hover:bg-gray-200 transition-all duration-500 font-normal text-sm tracking-wide
-                shadow-lg hover:shadow-xl"
-            >
-              Explore Collection
-              <span className="text-lg">→</span>
-            </Link>
-          </motion.div>
-
-          {/* Right Content - Image visible on right */}
-          <motion.div 
-            initial={{ opacity: 0, x: 40 }}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="lg:col-span-6 hidden lg:block"
+            transition={{ duration: 0.8 }}
           >
-            <div className="relative">
-              {/* Main Image */}
-              <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1617103996702-96ff29b1c467?w=800&q=80"
-                  alt="Handcrafted resin art piece with floral design"
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                />
+            <p className="text-primary font-semibold tracking-[0.2em] uppercase mb-4 text-sm">
+              Exclusive Collection 2024
+            </p>
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Artisanal Resin <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Masterpieces</span>
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-lg leading-relaxed">
+              Transform your living space with our handcrafted, one-of-a-kind resin art pieces. 
+              Each creation tells a story of elegance and meticulous craftsmanship.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/shop"
+                className="px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 transition-all duration-300 font-bold shadow-xl hover:shadow-2xl"
+              >
+                Shop Collection
+              </Link>
+              <Link
+                to="/about"
+                className="px-8 py-4 border-2 border-black dark:border-white text-black dark:text-white rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 font-bold"
+              >
+                Our Story
+              </Link>
+            </div>
+
+            {/* Stats */}
+            <div className="mt-12 flex gap-8 items-center border-t border-gray-200 dark:border-gray-800 pt-8">
+              <div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">500+</p>
+                <p className="text-sm text-gray-500 uppercase tracking-wider">Unique Pieces</p>
               </div>
-              
-              {/* Floating elegant badge */}
-              <div className="absolute -bottom-6 -left-8 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl px-6 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#F5E6E0] flex items-center justify-center">
-                    <span className="text-[#2C2420] text-lg">✦</span>
-                  </div>
-                  <div>
-                    <p className="text-xs text-[#9A8A82] uppercase tracking-wider">Quality</p>
-                    <p className="text-sm font-medium text-[#2C2420]">100% Handmade</p>
-                  </div>
-                </div>
+              <div className="w-px h-10 bg-gray-200 dark:bg-gray-800" />
+              <div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">100%</p>
+                <p className="text-sm text-gray-500 uppercase tracking-wider">Handmade</p>
               </div>
             </div>
+          </motion.div>
+
+          {/* Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1 }}
+            className="relative"
+          >
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl relative z-10">
+              <img
+                src="https://images.unsplash.com/photo-1617103996702-96ff29b1c467?w=800&q=80"
+                alt="Luxury Resin Art"
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-1000"
+              />
+            </div>
+            
+            {/* Floating Elements */}
+            <motion.div
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute -top-10 -right-10 w-32 h-32 bg-white dark:bg-gray-800 rounded-2xl shadow-xl flex items-center justify-center p-4 z-20 hidden md:flex"
+            >
+              <img src="/tray.jpg" alt="Miniature" className="w-full h-full object-cover rounded-xl" />
+            </motion.div>
+            
+            <motion.div
+              animate={{ y: [0, 20, 0] }}
+              transition={{ duration: 5, repeat: Infinity }}
+              className="absolute -bottom-10 -left-10 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 z-20 hidden md:block"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-green-500 rounded-full" />
+                <p className="text-sm font-bold text-gray-900 dark:text-white">Limited Edition Available</p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
