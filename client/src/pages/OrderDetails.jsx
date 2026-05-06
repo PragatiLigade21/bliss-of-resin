@@ -4,7 +4,7 @@ import { ArrowLeft, Package, Truck, CheckCircle, Calendar, MapPin, CreditCard, C
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Card, Badge, LoadingState, Button } from "../components/UI";
 import { useAuth } from "../context/AuthContext";
-import Footer from "../components/Footer";
+import { API_URL } from "../utils/api";
 
 function OrderDetails() {
   const { id } = useParams();
@@ -17,7 +17,6 @@ function OrderDetails() {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
         const response = await fetch(`${API_URL}/api/orders/${id}`, {
           headers: getAuthHeaders(),
         });
@@ -227,7 +226,7 @@ function OrderDetails() {
                     className="flex gap-4 p-4 bg-gray-50 rounded-lg"
                   >
                     <img
-                      src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${item.image.startsWith('/') ? item.image : '/' + item.image}`}
+                      src={`${API_URL}${item.image.startsWith('/') ? item.image : '/' + item.image}`}
                       alt={item.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
@@ -314,8 +313,6 @@ function OrderDetails() {
           </motion.div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

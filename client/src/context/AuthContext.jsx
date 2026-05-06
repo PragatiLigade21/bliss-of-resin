@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { showSuccess, showError } from "../utils/toast";
+import { API_URL } from "../utils/api";
 
 const AuthContext = createContext();
 
@@ -46,8 +47,6 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       console.log("🔄 Attempting login for:", email);
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
       const response = await fetch(`${API_URL}/api/users/login`, {
         method: "POST",
         headers: {
@@ -84,17 +83,15 @@ export const AuthProvider = ({ children }) => {
 
   // Register function
   const register = async (name, email, password) => {
-    try {
-      console.log("🔄 Attempting registration for:", email);
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
-      const response = await fetch(`${API_URL}/api/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+     try {
+       console.log("🔄 Attempting registration for:", email);
+       const response = await fetch(`${API_URL}/api/users/register`, {
+         method: "POST",
+         headers: {
+           "Content-Type": "application/json",
+         },
+         body: JSON.stringify({ name, email, password }),
+       });
 
       const data = await response.json();
 

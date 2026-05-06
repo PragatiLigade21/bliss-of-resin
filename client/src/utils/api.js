@@ -3,13 +3,14 @@
  * All API calls to backend
  */
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
+export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+export const API_BASE_URL = `${API_URL}/api`;
 
 /**
  * Generic fetch wrapper
  */
 const apiFetch = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
+  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
   const headers = {
     "Content-Type": "application/json",
     ...options.headers
@@ -27,7 +28,17 @@ const apiFetch = async (endpoint, options = {}) => {
       headers
     });
 
-    const data = await response.json();
+    // Check if response is JSON
+    const contentType = response.headers.get("content-type");
+    let data;
+    
+    if (contentType && contentType.includes("application/json")) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+      console.error("Non-JSON response received:", text);
+      throw new Error("Server returned an unexpected response format. Please check backend logs.");
+    }
 
     if (!response.ok) {
       throw new Error(data.message || "API request failed");

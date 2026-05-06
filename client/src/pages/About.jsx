@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
+import { motion } from "framer-motion";
+import { Heart, ShieldCheck, Sparkles, Award } from "lucide-react";
 
 function About() {
   return (
@@ -22,7 +23,7 @@ function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="aspect-[4/3] rounded-lg overflow-hidden bg-gray-200">
               <img
-                src="https://images.unsplash.com/photo-1617103996702-96ff29b1c467?w=800&q=80"
+                src="https://media.istockphoto.com/id/2228231094/photo/resin-epoxy-artworks-on-craft-table-with-paintbrushes-mixing-cups-wooden-art-base-for-artisan.jpg?s=2048x2048&w=is&k=20&c=QilmxMjjcj9B5jurvOMkJ0XE7-xKqzJ0vabnCJrF0cY="
                 alt="Our Craft"
                 className="w-full h-full object-cover"
               />
@@ -103,8 +104,6 @@ function About() {
           </Link>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

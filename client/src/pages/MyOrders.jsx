@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { Package, Truck, CheckCircle, Calendar } from "lucide-react";
 import { Card, Badge, LoadingState, EmptyState } from "../components/UI";
 import { useAuth } from "../context/AuthContext";
-import Footer from "../components/Footer";
+import toast from "react-hot-toast";
+import { API_URL } from "../utils/api";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -19,7 +20,6 @@ function MyOrders() {
 
     const fetchOrders = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
         const response = await fetch(`${API_URL}/api/orders/my-orders`, {
           headers: getAuthHeaders(),
         });
@@ -147,7 +147,7 @@ function MyOrders() {
                         >
                           {item.image && (
                             <img
-                              src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${item.image.startsWith('/') ? item.image : '/' + item.image}`}
+                              src={`${API_URL}${item.image.startsWith('/') ? item.image : '/' + item.image}`}
                               alt={item.name}
                               className="w-12 h-12 object-cover rounded"
                             />
@@ -239,8 +239,6 @@ function MyOrders() {
           </div>
         )}
       </div>
-
-      <Footer />
     </div>
   );
 }

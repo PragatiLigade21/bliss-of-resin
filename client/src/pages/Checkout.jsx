@@ -1,16 +1,16 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Loader, ArrowLeft, ShoppingBag, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../context/CartContext";
+import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { Button, Card, LoadingState } from "../components/UI";
-import Footer from "../components/Footer";
 import { showSuccess, showError } from "../utils/toast";
+import { API_URL } from "../utils/api";
 
 function Checkout() {
   const navigate = useNavigate();
-  const { cart, getTotalPrice, clearCart } = useContext(CartContext);
+  const { cart, getTotalPrice, clearCart } = useCart();
   const { user, getAuthHeaders } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -85,6 +85,13 @@ function Checkout() {
     setLoading(true);
 
     try {
+      const authHeaders = getAuthHeaders();
+      
+      // Safety check: Ensure token exists since backend requires it
+      if (!authHeaders.Authorization) {
+        throw new Error("You must be logged in to place an order");
+      }
+
       // Prepare order items in the format expected by backend
       const orderItems = cart.map(item => ({
         name: item.name,
@@ -93,6 +100,11 @@ function Checkout() {
         product: item._id,
         image: item.image
       }));
+
+      const subtotal = getTotalPrice();
+      const shipping = subtotal > 500 ? 0 : 50;
+      const tax = Math.round(subtotal * 0.18);
+      const total = subtotal + shipping + tax;
 
       const orderData = {
         orderItems,
@@ -103,15 +115,17 @@ function Checkout() {
           phone: form.phone
         },
         paymentMethod: form.paymentMethod,
-        totalPrice: getTotalPrice()
+        subtotal: subtotal,
+        taxAmount: tax,
+        shippingCost: shipping,
+        totalPrice: total
       };
 
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       const response = await fetch(`${API_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...getAuthHeaders(),
+          ...authHeaders,
         },
         body: JSON.stringify(orderData),
       });
@@ -184,243 +198,190 @@ function Checkout() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}
-      <section className="bg-white dark:bg-gray-800 py-12 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => navigate("/cart")}
-              className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
-            >
-              <ArrowLeft size={24} />
-            </button>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Checkout</h1>
-          </div>
+      <section className="bg-white dark:bg-gray-800 py-8 md:py-16 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+          <p className="text-primary font-bold uppercase tracking-[0.2em] text-[10px] mb-3">Secure Checkout</p>
+          <h1 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white" style={{ fontFamily: 'Playfair Display, serif' }}>Finalize Order</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">Complete your purchase of handcrafted excellence.</p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Checkout Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-2"
-          >
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Shipping Information */}
-              <Card>
-                <h2 className="text-2xl font-bold mb-6">Shipping Information</h2>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-primary transition-colors ${
-                        errors.name ? "border-red-500" : "border-gray-300"
-                      }`}
-                      placeholder="John Doe"
-                    />
-                    {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold mb-2">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-primary transition-colors ${
-                        errors.email ? "border-red-500" : "border-gray-300"
-                      }`}
-                      placeholder="john@example.com"
-                    />
-                    {errors.email && (
-                      <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                    )}
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold mb-2">
-                      Address *
-                    </label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={form.address}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-primary transition-colors ${
-                        errors.address ? "border-red-500" : "border-gray-300"
-                      }`}
-                      placeholder="123 Main Street"
-                    />
-                    {errors.address && (
-                      <p className="text-red-500 text-sm mt-1">{errors.address}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold mb-2">
-                      City *
-                    </label>
-                    <input
-                      type="text"
-                      name="city"
-                      value={form.city}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-primary transition-colors ${
-                        errors.city ? "border-red-500" : "border-gray-300"
-                      }`}
-                      placeholder="New York"
-                    />
-                    {errors.city && (
-                      <p className="text-red-500 text-sm mt-1">{errors.city}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold mb-2">
-                      Phone *
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={form.phone}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-primary transition-colors ${
-                        errors.phone ? "border-red-500" : "border-gray-300"
-                      }`}
-                      placeholder="1234567890"
-                    />
-                    {errors.phone && (
-                      <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                    )}
-                  </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Column: Shipping & Payment */}
+          <div className="lg:col-span-8 space-y-8">
+            {/* Shipping Address */}
+            <div className="bg-white dark:bg-gray-800 p-6 md:p-10 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="flex items-center gap-3 mb-8 text-indigo-600">
+                <ShoppingBag size={24} />
+                <h3 className="text-xl font-black uppercase tracking-widest text-[10px] text-gray-400">Shipping Details</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Full Name</label>
+                  <input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 dark:text-white font-medium"
+                    placeholder="Recipient's Name"
+                    required
+                  />
                 </div>
-              </Card>
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Street Address</label>
+                  <input
+                    name="address"
+                    value={form.address}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 dark:text-white font-medium"
+                    placeholder="House No, Street, Area"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">City</label>
+                  <input
+                    name="city"
+                    value={form.city}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 dark:text-white font-medium"
+                    placeholder="City"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Phone Number</label>
+                  <input
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 dark:text-white font-medium"
+                    placeholder="+91 00000 00000"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
 
-              {/* Payment Method */}
-              <Card>
-                <h2 className="text-2xl font-bold mb-6">Payment Method</h2>
-
-                <div className="space-y-4">
-                  <label className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary transition-colors">
+            {/* Payment Method */}
+            <div className="bg-white dark:bg-gray-800 p-6 md:p-10 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="flex items-center gap-3 mb-8 text-pink-600">
+                <CreditCard size={24} />
+                <h3 className="text-xl font-black uppercase tracking-widest text-[10px] text-gray-400">Payment Selection</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {["Razorpay", "COD"].map((method) => (
+                  <label 
+                    key={method}
+                    className={`relative flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${
+                      form.paymentMethod === method 
+                        ? "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-900/10" 
+                        : "border-gray-100 dark:border-gray-700 hover:border-gray-200"
+                    }`}
+                  >
                     <input
                       type="radio"
                       name="paymentMethod"
-                      value="COD"
-                      checked={form.paymentMethod === "COD"}
+                      value={method}
+                      checked={form.paymentMethod === method}
                       onChange={handleChange}
-                      className="text-primary focus:ring-primary"
+                      className="w-5 h-5 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                     />
-                    <CreditCard size={24} className="text-gray-600" />
-                    <div>
-                      <p className="font-semibold">Cash on Delivery</p>
-                      <p className="text-sm text-gray-600">Pay when you receive your order</p>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-gray-900 dark:text-white">{method === "COD" ? "Cash on Delivery" : method}</span>
+                      <span className="text-[10px] text-gray-400 uppercase tracking-widest font-black">
+                        {method === "Razorpay" ? "Secure Online Payment" : "Pay at your doorstep"}
+                      </span>
                     </div>
                   </label>
-                </div>
-              </Card>
+                ))}
+              </div>
+            </div>
+          </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                className="w-full"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <Loader size={20} className="animate-spin mr-2" />
-                    Placing Order...
-                  </>
-                ) : (
-                  `Place Order - ₹${total.toFixed(2)}`
-                )}
-              </Button>
-            </form>
-          </motion.div>
-
-          {/* Order Summary */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-1"
-          >
-            <Card variant="elevated" className="sticky top-24">
-              <h3 className="font-bold text-xl mb-6 pb-4 border-b border-gray-200">
-                Order Summary
+          {/* Right Column: Order Summary */}
+          <div className="lg:col-span-4">
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl border border-gray-100 dark:border-gray-700 sticky top-28">
+              <h3 className="text-xl font-black text-gray-900 dark:text-white mb-8 pb-4 border-b border-gray-50 dark:border-gray-700" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Your Order
               </h3>
 
-              {/* Cart Items */}
-              <div className="space-y-4 mb-6">
+              <div className="max-h-64 overflow-y-auto custom-scrollbar mb-8 pr-2 space-y-4">
                 {cart.map((item) => (
-                  <div key={item._id} className="flex gap-3">
-                    <img
-                      src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${item.image.startsWith('/') ? item.image : '/' + item.image}`}
-                      alt={item.name}
-                      className="w-12 h-12 object-cover rounded-lg"
-                    />
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm">{item.name}</p>
-                      <p className="text-sm text-gray-600">
-                        Qty: {item.quantity || 1} × ₹{item.price}
-                      </p>
+                  <div key={item._id} className="flex gap-4 items-center">
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-900 flex-shrink-0">
+                      <img
+                        src={`${API_URL}${item.image.startsWith('/') ? item.image : '/' + item.image}`}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <p className="font-semibold">
-                      ₹{(item.price * (item.quantity || 1)).toFixed(2)}
-                    </p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-gray-800 dark:text-white truncate">{item.name}</p>
+                      <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Qty: {item.quantity || 1}</p>
+                    </div>
+                    <span className="text-sm font-black text-gray-900 dark:text-white">₹{(item.price * (item.quantity || 1)).toLocaleString()}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-gray-200 pt-4 space-y-2">
-                <div className="flex justify-between text-gray-700">
-                  <span>Subtotal</span>
-                  <span>₹{subtotal.toFixed(2)}</span>
+              <div className="space-y-4 mb-8 pt-6 border-t border-gray-50 dark:border-gray-700">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500 font-bold uppercase tracking-widest">Subtotal</span>
+                  <span className="text-gray-900 dark:text-white font-black">₹{subtotal.toLocaleString()}</span>
                 </div>
 
-                {shipping > 0 && (
-                  <div className="flex justify-between text-gray-700">
-                    <span>Shipping</span>
-                    <span>₹{shipping}</span>
-                  </div>
-                )}
-
-                {shipping === 0 && (
-                  <div className="flex justify-between text-green-600 text-sm">
-                    <span>Shipping</span>
-                    <span>FREE</span>
-                  </div>
-                )}
-
-                <div className="flex justify-between text-gray-700">
-                  <span>Tax (18%)</span>
-                  <span>₹{tax}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500 font-bold uppercase tracking-widest">Shipping</span>
+                  {shipping === 0 ? (
+                    <span className="text-emerald-500 font-black uppercase tracking-tighter">Free</span>
+                  ) : (
+                    <span className="text-gray-900 dark:text-white font-black">₹{shipping}</span>
+                  )}
                 </div>
 
-                <div className="border-t border-gray-200 pt-2 flex justify-between font-bold text-lg">
-                  <span>Total</span>
-                  <span className="text-primary">₹{total.toFixed(2)}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500 font-bold uppercase tracking-widest">Tax (18%)</span>
+                  <span className="text-gray-900 dark:text-white font-black">₹{tax.toLocaleString()}</span>
+                </div>
+
+                <div className="pt-4 border-t border-gray-50 dark:border-gray-700 flex justify-between">
+                  <span className="text-lg font-black text-gray-900 dark:text-white">Total</span>
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-indigo-600">₹{total.toLocaleString()}</span>
+                  </div>
                 </div>
               </div>
-            </Card>
-          </motion.div>
-        </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-5 bg-black dark:bg-white text-white dark:text-black rounded-full font-black uppercase tracking-widest text-xs shadow-xl hover:shadow-2xl active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+              >
+                {loading ? (
+                  <div className="animate-spin h-5 w-5 border-2 border-white dark:border-black border-t-transparent rounded-full"></div>
+                ) : (
+                  <>
+                    <Check size={18} />
+                    Place Order Now
+                  </>
+                )}
+              </button>
+
+              <div className="mt-8 flex items-center justify-center gap-6">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-4 opacity-30 grayscale" />
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-3 opacity-30 grayscale" />
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-6 opacity-30 grayscale" />
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
 
-      <Footer />
     </div>
   );
 }

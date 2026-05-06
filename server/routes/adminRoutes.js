@@ -21,7 +21,7 @@ router.get("/dashboard/stats", authMiddleware, adminMiddleware, async (req, res)
     const totalProducts = await Product.countDocuments({ isActive: true });
     const totalOrders = await Order.countDocuments();
     const totalRevenue = await Order.aggregate([
-      { $match: { isPaid: true } },
+      { $match: { $or: [{ isPaid: true }, { paymentMethod: "COD" }] } },
       { $group: { _id: null, total: { $sum: "$totalPrice" } } }
     ]);
 
@@ -80,6 +80,8 @@ router.get("/orders", authMiddleware, adminMiddleware, async (req, res) => {
     if (status && status !== "all") {
       filters.status = status;
     }
+
+    console.log("👨‍💼 Admin Fetching Orders with filters:", filters);
 
     let sortObj = {};
     switch (sort) {

@@ -10,6 +10,13 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Request Logger
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
 
 // Serve static images with options
 const imagesPath = path.join(__dirname, "images");
@@ -48,6 +55,36 @@ app.use("/api/orders", authMiddleware, orderRoutes); // Protected orders route
 app.use("/api/reviews", reviewRoutes); // Reviews routes
 app.use("/api/wishlist", wishlistRoutes); // Wishlist routes
 app.use("/api/admin", authMiddleware, adminRoutes); // Admin routes (auth required, admin check inside)
+
+// 404 Handler for API routes
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({
+      message: `API route not found: ${req.originalUrl}`,
+    });
+  }
+  next();
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error("❌ Global Error Handler:", err);
+  
+  // Handle Multer errors
+  if (err.name === 'MulterError') {
+    return res.status(400).json({
+      success: false,
+      message: `Upload error: ${err.message}`
+    });
+  }
+
+  const statusCode = err.statusCode || res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+    stack: process.env.NODE_ENV === "production" ? null : err.stack
+  });
+});
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)

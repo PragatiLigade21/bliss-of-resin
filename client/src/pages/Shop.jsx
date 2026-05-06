@@ -6,7 +6,6 @@ import { Card, Button, LoadingState, EmptyState } from "../components/UI";
 import ProductCard from "../components/ProductCard";
 import FilterPanel from "../components/FilterPanel";
 import PaginationControls from "../components/PaginationControls";
-import Footer from "../components/Footer";
 import { productsAPI } from "../utils/api";
 import { showError } from "../utils/toast";
 import { AnimatePresence } from "framer-motion";
@@ -326,8 +325,6 @@ function Shop() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

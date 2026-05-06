@@ -4,7 +4,7 @@
  */
 
 import { Link } from "react-router-dom";
-import { Heart, Instagram, Facebook, Twitter, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { FaHeart, FaInstagram, FaFacebook, FaTwitter, FaEnvelope, FaPhone, FaMapPin, FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 function Footer() {
@@ -49,7 +49,7 @@ function Footer() {
               Elevating everyday living through artisanal resin excellence. Handcrafted masterpieces for the modern home.
             </p>
             <div className="flex items-center gap-4">
-              {[Instagram, Facebook, Twitter, Mail].map((Icon, i) => (
+              {[FaInstagram, FaFacebook, FaTwitter, FaEnvelope].map((Icon, i) => (
                 <a 
                   key={i} 
                   href="#" 
@@ -106,18 +106,18 @@ function Footer() {
             <h4 className="text-xs font-black uppercase tracking-[0.2em] text-primary mb-8">Visit Us</h4>
             <ul className="space-y-6">
               <li className="flex items-start gap-4 text-gray-400">
-                <MapPin size={20} className="text-primary flex-shrink-0" />
+                <FaMapPin size={20} className="text-primary flex-shrink-0" />
                 <span className="text-sm leading-relaxed">
                   123 Artisanal Way, Creative District<br />
                   Mumbai, Maharashtra 400001
                 </span>
               </li>
               <li className="flex items-center gap-4 text-gray-400">
-                <Phone size={20} className="text-primary flex-shrink-0" />
+                <FaPhone size={20} className="text-primary flex-shrink-0" />
                 <span className="text-sm">+91 98765 43210</span>
               </li>
               <li className="flex items-center gap-4 text-gray-400">
-                <Mail size={20} className="text-primary flex-shrink-0" />
+                <FaEnvelope size={20} className="text-primary flex-shrink-0" />
                 <span className="text-sm">studio@blissofresin.com</span>
               </li>
             </ul>
@@ -127,7 +127,7 @@ function Footer() {
         {/* Newsletter / Bottom Strip */}
         <div className="pt-12 border-t border-gray-800 flex flex-col lg:flex-row justify-between items-center gap-8">
           <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">
-            © {currentYear} Bliss of Resin. Handcrafted with <Heart size={12} className="inline text-primary mx-1" fill="currentColor" /> in India.
+            © {currentYear} Bliss of Resin. Handcrafted with <FaHeart size={12} className="inline text-primary mx-1" fill="currentColor" /> in India.
           </p>
           
           <div className="flex items-center gap-8">

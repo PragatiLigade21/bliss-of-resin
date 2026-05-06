@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Check, Heart } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { StarRating } from "./UI";
+import { API_URL } from "../utils/api";
 
 const PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/400?text=No+Image";
 
@@ -45,7 +46,7 @@ function ProductCard({ product, viewMode = "grid" }) {
               product.image
                 ? product.image.startsWith("http")
                   ? product.image
-                  : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`
+                  : `${API_URL}${product.image}`
                 : PLACEHOLDER_IMAGE_URL
             }
             alt={product.name}
@@ -135,12 +136,12 @@ function ProductCard({ product, viewMode = "grid" }) {
       <div className="relative aspect-[4/5] bg-gray-50 dark:bg-gray-700 overflow-hidden">
         <img
           src={
-            product.image
-              ? product.image.startsWith("http")
-                ? product.image
-                : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.image}`
-              : PLACEHOLDER_IMAGE_URL
-          }
+              product.image
+                ? product.image.startsWith("http")
+                  ? product.image
+                  : `${API_URL}${product.image}`
+                : PLACEHOLDER_IMAGE_URL
+            }
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE_URL)}

@@ -5,41 +5,75 @@ const Order = require("../models/Order");
 
 // 🧾 CREATE ORDER (Protected)
 router.post("/", async (req, res) => {
+  console.log("🚀 Create Order API Hit!");
   try {
     const {
       orderItems,
       shippingAddress,
       paymentMethod = "COD",
+      subtotal,
+      taxAmount,
+      shippingCost,
       totalPrice
     } = req.body;
 
+    console.log("📥 Incoming Order Request Body:", JSON.stringify(req.body, null, 2));
+    console.log("👤 Logged-in User Info:", req.user);
+
     // Validate required fields
     if (!orderItems || orderItems.length === 0) {
-      return res.status(400).json({ message: "No order items" });
+      console.warn("⚠️ Validation failed: No order items");
+      return res.status(400).json({ message: "No order items provided" });
     }
 
     if (!shippingAddress) {
+      console.warn("⚠️ Validation failed: Shipping address is required");
       return res.status(400).json({ message: "Shipping address is required" });
     }
 
     // Create order with proper structure
     const order = new Order({
-      user: req.user.userId,
+      user: req.user._id, // Use the ObjectId from authMiddleware
       orderItems,
       shippingAddress,
       paymentMethod,
-      totalPrice,
+      subtotal: Number(subtotal),
+      taxAmount: Number(taxAmount),
+      shippingCost: Number(shippingCost),
+      totalPrice: Number(totalPrice),
       isPaid: paymentMethod === "COD" ? false : true, // COD is not paid yet
     });
 
+    console.log("🛠️ Attempting to save order to MongoDB...");
     const createdOrder = await order.save();
 
-    console.log(`✅ Order created: ${createdOrder._id} for user: ${req.user.userId}`);
+    console.log(`✅ Order saved successfully: ${createdOrder._id}`);
     res.status(201).json(createdOrder);
 
   } catch (err) {
-    console.error("❌ Error creating order:", err);
-    res.status(500).json({ message: "Error creating order" });
+    console.error("❌ MongoDB Order Save Error:", err);
+    
+    if (err.name === "ValidationError") {
+      const messages = Object.values(err.errors).map(val => val.message);
+      console.warn("⚠️ Validation Details:", messages);
+      return res.status(400).json({ 
+        message: "Order validation failed", 
+        details: messages 
+      });
+    }
+
+    if (err.name === "CastError") {
+      console.warn("⚠️ Cast Error:", err.message);
+      return res.status(400).json({ 
+        message: "Invalid data format in order", 
+        field: err.path 
+      });
+    }
+
+    res.status(500).json({ 
+      message: "Server error during order creation", 
+      error: err.message 
+    });
   }
 });
 

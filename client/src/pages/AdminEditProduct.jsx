@@ -1,14 +1,18 @@
-/**
- * Admin Edit Product Page
- * Allows admin to edit existing products
- */
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { 
+  ArrowLeft, 
+  Upload, 
+  X, 
+  CheckCircle2, 
+  Info,
+  Layers,
+  IndianRupee,
+  Save,
+  Trash2
+} from "lucide-react";
 import toast from "react-hot-toast";
-import { productsAPI } from "../utils/api";
-
-const API_BASE_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
+import { productsAPI, API_BASE_URL, API_URL } from "../utils/api";
 
 const CATEGORIES = [
   "Resin Art",
@@ -65,7 +69,7 @@ function AdminEditProduct() {
         
         // Set image preview
         if (product.image) {
-          setImagePreview(product.image);
+          setImagePreview(product.image.startsWith('http') ? product.image : `${API_URL}${product.image}`);
         }
       }
     } catch (error) {
@@ -97,54 +101,50 @@ function AdminEditProduct() {
         return;
       }
       
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("Image size must be less than 5MB");
-        return;
-      }
-
       setImage(file);
-      
-      // Create preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   // Upload image to server
   const uploadImage = async (file) => {
-    const formDataUpload = new FormData();
-    formDataUpload.append("image", file);
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append("image", file);
 
-    const response = await fetch(`${API_BASE_URL}/products/upload`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`
-      },
-      body: formDataUpload
-    });
+      const response = await fetch(`${API_BASE_URL}/products/upload`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+        body: formDataUpload
+      });
 
-    const data = await response.json();
-    if (!data.success) {
-      throw new Error(data.message || "Failed to upload image");
+      // Check if response is JSON
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Non-JSON response received:", text);
+        throw new Error("Server returned an unexpected response format (HTML). Please check backend logs.");
+      }
+
+      const data = await response.json();
+      
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Failed to upload image");
+      }
+
+      return data.image;
+    } catch (error) {
+      console.error("Upload image error:", error);
+      throw error;
     }
-
-    return data.image;
   };
 
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validation
-    if (!formData.name || !formData.price || !formData.category) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
     try {
       setSaving(true);
 
@@ -153,7 +153,14 @@ function AdminEditProduct() {
       // Upload new image if selected
       if (image) {
         setUploading(true);
-        imagePath = await uploadImage(image);
+        try {
+          imagePath = await uploadImage(image);
+        } catch (uploadError) {
+          toast.error(`Image upload failed: ${uploadError.message}`);
+          setUploading(false);
+          setSaving(false);
+          return; // Stop form submission if upload fails
+        }
         setUploading(false);
       }
 
@@ -167,10 +174,14 @@ function AdminEditProduct() {
       };
 
       // Update product
-      await productsAPI.updateProduct(id, productData);
+      const result = await productsAPI.updateProduct(id, productData);
       
-      toast.success("Product updated successfully!");
-      navigate("/admin/products");
+      if (result.success) {
+        toast.success("Product updated successfully!");
+        navigate("/admin/products");
+      } else {
+        throw new Error(result.message || "Update failed");
+      }
 
     } catch (error) {
       console.error("Error saving product:", error);
@@ -181,207 +192,196 @@ function AdminEditProduct() {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this product? This action cannot be undone.")) {
+      try {
+        setSaving(true);
+        await productsAPI.deleteProduct(id);
+        toast.success("Product deleted successfully");
+        navigate("/admin/products");
+      } catch (error) {
+        toast.error("Failed to delete product");
+      } finally {
+        setSaving(false);
+      }
+    }
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="space-y-6">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Edit Product</h1>
-        <p className="text-gray-500 mt-1">Update product information</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => navigate("/admin/products")}
+            className="p-2 bg-white rounded-xl shadow-sm border border-gray-100 text-gray-400 hover:text-indigo-600 transition-all"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <div>
+            <h1 className="text-2xl font-black text-gray-900 tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>Edit Product</h1>
+            <p className="text-gray-500 text-sm mt-1">ID: {id.toUpperCase()}</p>
+          </div>
+        </div>
+        
+        <button
+          onClick={handleDelete}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 rounded-2xl hover:bg-red-100 transition-all font-bold text-sm"
+        >
+          <Trash2 size={18} />
+          Delete Product
+        </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="max-w-2xl">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
-          
-          {/* Product Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Name *
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="Enter product name"
-            />
-          </div>
-
-          {/* Category */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Category *
-            </label>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            >
-              {CATEGORIES.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Prices */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price *
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column: Form Details */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
+            <div className="flex items-center gap-2 text-indigo-600 mb-2">
+              <Info size={18} />
+              <h3 className="font-bold uppercase tracking-widest text-[10px]">Basic Information</h3>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Product Name</label>
                 <input
-                  type="number"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Product Name"
+                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 font-medium"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Description</label>
+                <textarea
+                  name="description"
+                  rows="5"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Product Description"
+                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 font-medium resize-none"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
+            <div className="flex items-center gap-2 text-pink-600 mb-2">
+              <IndianRupee size={18} />
+              <h3 className="font-bold uppercase tracking-widest text-[10px]">Pricing & Inventory</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Sale Price (₹)</label>
+                <input
                   name="price"
+                  type="number"
                   value={formData.price}
                   onChange={handleChange}
+                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 font-black"
                   required
-                  min="0"
-                  step="0.01"
-                  className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="0.00"
                 />
               </div>
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Regular Price (₹)</label>
+                <input
+                  name="originalPrice"
+                  type="number"
+                  value={formData.originalPrice}
+                  onChange={handleChange}
+                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-400 font-bold"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Stock</label>
+                <input
+                  name="stock"
+                  type="number"
+                  value={formData.stock}
+                  onChange={handleChange}
+                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 font-black"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Category & Image */}
+        <div className="space-y-6">
+          <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
+            <div className="flex items-center gap-2 text-emerald-600 mb-2">
+              <Layers size={18} />
+              <h3 className="font-bold uppercase tracking-widest text-[10px]">Classification</h3>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Original Price
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-                <input
-                  type="number"
-                  name="originalPrice"
-                  value={formData.originalPrice}
-                  onChange={handleChange}
-                  min="0"
-                  step="0.01"
-                  className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="0.00"
-                />
-              </div>
+              <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Category</label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-indigo-500/20 transition-all text-gray-800 font-bold appearance-none cursor-pointer"
+              >
+                {CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
             </div>
           </div>
 
-          {/* Stock */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Stock Quantity
-            </label>
-            <input
-              type="number"
-              name="stock"
-              value={formData.stock}
-              onChange={handleChange}
-              min="0"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="0"
-            />
-          </div>
+          <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
+            <div className="flex items-center gap-2 text-amber-600 mb-2">
+              <Upload size={18} />
+              <h3 className="font-bold uppercase tracking-widest text-[10px]">Product Media</h3>
+            </div>
 
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="Enter product description"
-            />
-          </div>
-
-          {/* Image Upload */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Image
-            </label>
-            
-            <div className="flex items-start gap-4">
-              {/* Image Preview */}
-              <div className="w-32 h-32 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden flex-shrink-0 bg-gray-50">
-                {imagePreview ? (
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    No image
+            <div className="space-y-4">
+              <div className="relative group">
+                <img
+                  src={imagePreview || 'https://via.placeholder.com/400x400?text=No+Image'}
+                  alt="Preview"
+                  className="w-full h-64 object-cover rounded-[2rem] border border-gray-100"
+                />
+                <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all rounded-[2rem] cursor-pointer">
+                  <div className="flex flex-col items-center text-white">
+                    <Upload size={24} />
+                    <span className="text-xs font-bold mt-2 uppercase tracking-widest">Change Image</span>
                   </div>
-                )}
-              </div>
-
-              {/* Upload Button */}
-              <div className="flex-1">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                  id="image-upload"
-                />
-                <label
-                  htmlFor="image-upload"
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                >
-                  Choose Image
+                  <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
                 </label>
-                <p className="mt-2 text-sm text-gray-500">
-                  JPEG, PNG, GIF, WebP (max 5MB)
-                </p>
-                {image && (
-                  <p className="mt-1 text-sm text-green-600">
-                    New image selected: {image.name}
-                  </p>
-                )}
               </div>
             </div>
           </div>
 
-          {/* Submit Button */}
-          <div className="flex items-center gap-4 pt-4">
-            <button
-              type="submit"
-              disabled={saving || uploading}
-              className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {saving || uploading ? (
-                <span className="flex items-center gap-2">
-                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                  {uploading ? "Uploading..." : "Saving..."}
-                </span>
-              ) : (
-                "Update Product"
-              )}
-            </button>
-            
-            <button
-              type="button"
-              onClick={() => navigate("/admin/products")}
-              className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-          </div>
-
+          <button
+            type="submit"
+            disabled={saving}
+            className="w-full py-5 bg-indigo-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+          >
+            {saving ? (
+              <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+            ) : (
+              <>
+                <Save size={18} />
+                Save Changes
+              </>
+            )}
+          </button>
         </div>
       </form>
     </div>
