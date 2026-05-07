@@ -98,15 +98,29 @@ const orderSchema = new mongoose.Schema({
 
 // Calculate total price before saving
 orderSchema.pre("save", function(next) {
-  if (this.orderItems && this.orderItems.length > 0) {
-    const subtotal = this.orderItems.reduce((total, item) => {
-      return total + (item.price * item.quantity);
-    }, 0);
-    
-    this.subtotal = subtotal;
-    this.totalPrice = subtotal + (this.taxAmount || 0) + (this.shippingCost || 0) - (this.discountApplied || 0);
+  try {
+    if (this.orderItems && this.orderItems.length > 0) {
+      const subtotal = this.orderItems.reduce((total, item) => {
+        const itemPrice = Number(item.price) || 0;
+        const itemQty = Number(item.quantity) || 0;
+        return total + (itemPrice * itemQty);
+      }, 0);
+      
+      this.subtotal = subtotal;
+      
+      const tax = Number(this.taxAmount) || 0;
+      const shipping = Number(this.shippingCost) || 0;
+      const discount = Number(this.discountApplied) || 0;
+      
+      this.totalPrice = subtotal + tax + shipping - discount;
+      
+      console.log(`📊 Order pre-save calc: subtotal=${subtotal}, tax=${tax}, shipping=${shipping}, total=${this.totalPrice}`);
+    }
+    next();
+  } catch (err) {
+    console.error("❌ Order pre-save hook error:", err);
+    next(err);
   }
-  next();
 });
 
 // Index for efficient queries

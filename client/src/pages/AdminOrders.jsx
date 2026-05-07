@@ -45,8 +45,8 @@ function AdminOrders() {
         limit: 10
       });
       if (data.success) {
-        setOrders(data.orders);
-        setTotalPages(data.pages);
+        setOrders(data.orders || []);
+        setTotalPages(data.pages || 1);
       }
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -99,7 +99,7 @@ function AdminOrders() {
     switch (status) {
       case "delivered": return "bg-emerald-50 text-emerald-600";
       case "shipped": return "bg-blue-50 text-blue-600";
-      case "processing": return "bg-indigo-50 text-indigo-600";
+      case "confirmed": return "bg-indigo-50 text-indigo-600";
       case "cancelled": return "bg-red-50 text-red-600";
       case "pending": return "bg-amber-50 text-amber-600";
       default: return "bg-gray-50 text-gray-600";
@@ -136,7 +136,7 @@ function AdminOrders() {
           >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
-            <option value="processing">Processing</option>
+            <option value="confirmed">Confirmed</option>
             <option value="shipped">Shipped</option>
             <option value="delivered">Delivered</option>
             <option value="cancelled">Cancelled</option>

@@ -98,7 +98,7 @@ function Checkout() {
         quantity: item.quantity || 1,
         price: item.price,
         product: item._id,
-        image: item.image
+        image: item.image || "/vite.svg" // Use placeholder if image is missing
       }));
 
       const subtotal = getTotalPrice();

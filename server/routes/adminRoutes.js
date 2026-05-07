@@ -385,6 +385,7 @@ router.get("/products", authMiddleware, adminMiddleware, async (req, res) => {
       total
     });
   } catch (error) {
+    console.error("❌ Error fetching admin products:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 });

@@ -15,4 +15,16 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
+// Verify Cloudinary connection
+cloudinary.api.ping()
+  .then(result => console.log("✅ Cloudinary Connection: Successful"))
+  .catch(err => {
+    console.error("❌ Cloudinary Connection Error:", err.message);
+    console.error("Credentials Check:", {
+      cloud_name: process.env.CLOUD_NAME ? "Present" : "Missing",
+      api_key: process.env.API_KEY ? "Present" : "Missing",
+      api_secret: process.env.API_SECRET ? "Present" : "Missing"
+    });
+  });
+
 module.exports = cloudinary;

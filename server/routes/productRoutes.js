@@ -88,7 +88,18 @@ router.post(
 
 // ✅ UPLOAD image endpoint (for admin image preview)
 // This must come BEFORE the /:id route to avoid matching upload as an ID
-router.post("/upload", authMiddleware, adminMiddleware, upload.single("image"), async (req, res) => {
+router.post("/upload", authMiddleware, adminMiddleware, (req, res, next) => {
+  upload.single("image")(req, res, (err) => {
+    if (err) {
+      console.error("UPLOAD MIDDLEWARE ERROR:", err);
+      return res.status(500).json({
+        success: false,
+        message: err.message || "Error uploading file"
+      });
+    }
+    next();
+  });
+}, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -99,12 +110,13 @@ router.post("/upload", authMiddleware, adminMiddleware, upload.single("image"), 
 
     res.json({
       success: true,
-      image: req.file.path
+      image: req.file.path || req.file.secure_url
     });
   } catch (error) {
-    res.status(400).json({
+    console.error("UPLOAD ROUTE ERROR:", error);
+    res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message || "Internal Server Error during upload"
     });
   }
 });

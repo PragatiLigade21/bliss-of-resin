@@ -110,15 +110,15 @@ function AdminEditProduct() {
   const uploadImage = async (file) => {
     try {
       const formDataUpload = new FormData();
-      formDataUpload.append("image", file); // Must match backend upload.single("image")
+      formDataUpload.append("image", file);
 
-      // Ensure we're calling the backend API (localhost:5000) not the frontend dev server (localhost:5173)
-      const uploadUrl = `${API_URL}/api/products/upload`;
+      const uploadUrl = `${API_BASE_URL}/products/upload`;
       
       const response = await fetch(uploadUrl, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+          "Accept": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
         body: formDataUpload
       });
@@ -353,10 +353,9 @@ function AdminEditProduct() {
               <h3 className="font-bold uppercase tracking-widest text-[10px]">Product Media</h3>
             </div>
 
-            <div className="space-y-4">
               <div className="relative group">
                 <img
-                  src={imagePreview || 'https://via.placeholder.com/400x400?text=No+Image'}
+                  src={imagePreview || '/vite.svg'}
                   alt="Preview"
                   className="w-full h-64 object-cover rounded-[2rem] border border-gray-100"
                 />
@@ -369,26 +368,25 @@ function AdminEditProduct() {
                 </label>
               </div>
             </div>
+
+            <button
+              type="submit"
+              disabled={saving}
+              className="w-full py-5 bg-indigo-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+            >
+              {saving ? (
+                <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+              ) : (
+                <>
+                  <Save size={18} />
+                  Save Changes
+                </>
+              )}
+            </button>
           </div>
-
-          <button
-            type="submit"
-            disabled={saving}
-            className="w-full py-5 bg-indigo-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
-          >
-            {saving ? (
-              <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
-            ) : (
-              <>
-                <Save size={18} />
-                Save Changes
-              </>
-            )}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-
-export default AdminEditProduct;
+        </form>
+      </div>
+    );
+  }
+  
+  export default AdminEditProduct;
