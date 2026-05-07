@@ -21,7 +21,7 @@ import { Button, LoadingState, EmptyState, StarRating, Badge } from "../componen
 import ProductCard from "../components/ProductCard";
 import { productsAPI, API_URL } from "../utils/api";
 
-const PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/400?text=No+Image";
+const PLACEHOLDER_IMAGE_URL = "/vite.svg";
 
 const ProductDetails = () => {
   const { id } = useParams();

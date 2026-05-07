@@ -54,7 +54,7 @@ const products = [
     name: "Sunset Orange Tray",
     price: 1100,
     originalPrice: 1400,
-    image: "C:\Projects\bliss-of-resin\server\images\sunset orange.jpg",
+    image: "https://images.unsplash.com/photo-1630628123261-72dd7c75bc02?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Djpg",
     description: "Vibrant sunset orange resin tray with flowing designs",
     category: "Resin Trays",
     stock: 22,

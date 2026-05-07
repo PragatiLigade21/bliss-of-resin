@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 import { StarRating } from "./UI";
 import { API_URL } from "../utils/api";
 
-const PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/400?text=No+Image";
+const PLACEHOLDER_IMAGE_URL = "/vite.svg";
 
 function ProductCard({ product, viewMode = "grid" }) {
   const navigate = useNavigate();

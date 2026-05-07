@@ -110,9 +110,12 @@ function AdminEditProduct() {
   const uploadImage = async (file) => {
     try {
       const formDataUpload = new FormData();
-      formDataUpload.append("image", file);
+      formDataUpload.append("image", file); // Must match backend upload.single("image")
 
-      const response = await fetch(`${API_BASE_URL}/products/upload`, {
+      // Ensure we're calling the backend API (localhost:5000) not the frontend dev server (localhost:5173)
+      const uploadUrl = `${API_URL}/api/products/upload`;
+      
+      const response = await fetch(uploadUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
