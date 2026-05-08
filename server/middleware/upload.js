@@ -7,20 +7,31 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../config/cloudinary");
 
 // ✅ Cloudinary storage
+// Important: Do NOT use allowed_formats here because it can cause Invalid Signature error
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "resin-products",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"],
+  cloudinary,
+  params: async (req, file) => {
+    const fileName = file.originalname
+      .split(".")[0]
+      .replace(/\s+/g, "-")
+      .replace(/[^a-zA-Z0-9-_]/g, "");
+
+    return {
+      folder: "resin-products",
+      resource_type: "image",
+      public_id: `${Date.now()}-${fileName}`,
+    };
   },
 });
 
 // ✅ File filter
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image")) {
+  const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+  if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files allowed"), false);
+    cb(new Error("Only JPG, JPEG, PNG, and WEBP image files are allowed"), false);
   }
 };
 
