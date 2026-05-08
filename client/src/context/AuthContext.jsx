@@ -83,24 +83,42 @@ export const AuthProvider = ({ children }) => {
 
   // Register function
   const register = async (name, email, password) => {
-     try {
-       console.log("🔄 Attempting registration for:", email);
-       const response = await fetch(`${API_URL}/api/users/register`, {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify({ name, email, password }),
-       });
+    try {
+      console.log("🔄 Attempting registration for:", email);
+      const response = await fetch(`${API_URL}/api/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get("content-type");
+      
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        // Handle non-JSON response (e.g., HTML error page from server)
+        const text = await response.text();
+        console.error("❌ Server returned non-JSON response:", text);
+        throw new Error(`Server Error: ${response.status} ${response.statusText}`);
+      }
 
       if (!response.ok) {
         throw new Error(data.message || "Registration failed");
       }
 
+      // Save to state
+      setUser(data.user);
+      setToken(data.token);
+
+      // Save to localStorage
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+
       console.log("✅ Registration successful:", data.user.email);
-      showSuccess("Account created successfully! Please log in.");
+      showSuccess(`Welcome to Bliss of Resin, ${data.user.name}!`);
 
       return { success: true };
 

@@ -27,6 +27,9 @@ const authMiddleware = async (req, res, next) => {
     const token = authHeader.substring(7);
 
     // Verify token
+    if (!process.env.JWT_SECRET) {
+      console.warn("⚠️ JWT_SECRET is not defined in .env. Using fallback for verification.");
+    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
     console.log(`✅ Token Verified for User ID: ${decoded.userId}`);
 

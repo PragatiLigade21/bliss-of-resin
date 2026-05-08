@@ -6,6 +6,9 @@ const router = express.Router();
 
 // Generate JWT Token
 const generateToken = (userId) => {
+  if (!process.env.JWT_SECRET) {
+    console.warn("⚠️ JWT_SECRET is not defined in .env. Using fallback for development.");
+  }
   return jwt.sign({ userId }, process.env.JWT_SECRET || "your-secret-key", {
     expiresIn: "7d"
   });
@@ -16,10 +19,24 @@ router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    console.log(`🔄 Registration attempt: ${email}`);
+
+    // Basic validation
+    if (!name || !email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Please provide all required fields (name, email, password)" 
+      });
+    }
+
     // Check if user already exists
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists with this email" });
+      console.warn(`⚠️ Registration failed: User already exists (${email})`);
+      return res.status(400).json({ 
+        success: false,
+        message: "An account with this email already exists" 
+      });
     }
 
     // Create new user
@@ -34,26 +51,44 @@ router.post("/register", async (req, res) => {
     // Generate token
     const token = generateToken(user._id);
 
-    console.log(`✅ User registered: ${user.email}`);
+    console.log(`✅ User registered successfully: ${user.email}`);
     res.status(201).json({
+      success: true,
       message: "User registered successfully",
       user: {
         _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role || "user",
-        isAdmin: false
+        isAdmin: user.isAdmin || false
       },
       token
     });
 
   } catch (error) {
-    console.error("❌ Registration error:", error);
+    console.error("❌ Registration error details:", error);
+    
+    // Handle MongoDB duplicate key error (if findOne check fails due to race condition)
+    if (error.code === 11000) {
+      return res.status(400).json({ 
+        success: false,
+        message: "An account with this email already exists" 
+      });
+    }
+
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map(err => err.message);
-      return res.status(400).json({ message: messages.join(", ") });
+      return res.status(400).json({ 
+        success: false,
+        message: messages.join(", ") 
+      });
     }
-    res.status(500).json({ message: "Server error during registration" });
+
+    res.status(500).json({ 
+      success: false,
+      message: "Server error during registration",
+      error: error.message 
+    });
   }
 });
 
