@@ -4,6 +4,7 @@
  */
 
 import { Link } from "react-router-dom";
+import resinBanner from "../../hero-banner.png";
 
 function HeroSection() {
   return (
@@ -43,7 +44,7 @@ function HeroSection() {
           <div className="relative order-1 lg:order-2">
             <div className="aspect-[4/3] lg:aspect-square rounded-lg overflow-hidden bg-gray-100">
               <img
-                src="https://images.unsplash.com/photo-1617103996702-96ff29b1c467?w=800&q=80"
+                src={resinBanner}
                 alt="Resin Art"
                 className="w-full h-full object-cover"
               />
