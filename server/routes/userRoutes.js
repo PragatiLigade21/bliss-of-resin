@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
@@ -9,9 +10,16 @@ const generateToken = (userId) => {
   if (!process.env.JWT_SECRET) {
     console.warn("⚠️ JWT_SECRET is not defined in .env. Using fallback for development.");
   }
-  return jwt.sign({ userId }, process.env.JWT_SECRET || "your-secret-key", {
-    expiresIn: "7d"
-  });
+  
+  try {
+    const payload = { userId: userId.toString() };
+    return jwt.sign(payload, process.env.JWT_SECRET || "your-secret-key", {
+      expiresIn: "7d"
+    });
+  } catch (error) {
+    console.error("❌ JWT Signing Error:", error);
+    throw new Error("Failed to generate authentication token");
+  }
 };
 
 // REGISTER
@@ -19,7 +27,16 @@ router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    console.log(`🔄 Registration attempt: ${email}`);
+    console.log(`🔄 Registration attempt for: ${email}`);
+    
+    // Check DB Connection state
+    if (mongoose.connection.readyState !== 1) {
+      console.error("❌ Database not connected. State:", mongoose.connection.readyState);
+      return res.status(503).json({ 
+        success: false, 
+        message: "Database connection is currently unavailable. Please try again later." 
+      });
+    }
 
     // Basic validation
     if (!name || !email || !password) {
