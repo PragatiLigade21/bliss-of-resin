@@ -11,6 +11,7 @@ import Newsletter from "../components/Newsletter";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+
 function Home() {
   return (
     <div className="flex-1 bg-white dark:bg-gray-900 overflow-hidden">
@@ -40,7 +41,7 @@ function Home() {
             >
               <div className="aspect-[4/5] rounded-[4rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] relative z-10 border-[16px] border-gray-50 dark:border-gray-900">
                 <img
-                  src="https://images.unsplash.com/photo-161https://www.pexels.com/photo/a-person-pouring-resin-7256642/7103996702-96ff29b1c467?w=800&q=80"
+                  src="/images/process.png"
                   alt="Resin Art Process"
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-1000"
                 />
@@ -51,7 +52,7 @@ function Home() {
                 className="absolute -bottom-12 -right-12 w-2/3 aspect-square rounded-[3rem] overflow-hidden shadow-2xl z-20 border-[12px] border-white dark:border-gray-950 hidden md:block"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1590736961649-7f1692938170?w=600&q=80"
+                  src="/images/detailed.png"
                   alt="Detail Work"
                   className="w-full h-full object-cover"
                 />

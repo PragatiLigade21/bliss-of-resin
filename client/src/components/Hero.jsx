@@ -5,6 +5,7 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import resinBanner from "../assets/hero-banner.png";
 
 function Hero() {
   return (
@@ -85,7 +86,7 @@ function Hero() {
             <div className="relative z-10 group">
               <div className="aspect-[4/5] rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] border-[12px] border-white dark:border-gray-800 transition-all duration-700 group-hover:rounded-[2.5rem]">
                 <img
-                  src="https://images.unsplash.com/photo-1617103996702-96ff29b1c467?w=1000&q=90"
+                  src={resinBanner}
                   alt="Luxury Resin Art"
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
@@ -98,11 +99,11 @@ function Hero() {
                 className="absolute -top-12 -right-12 w-48 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-[2rem] shadow-2xl p-4 z-20 hidden md:block border border-white/20"
               >
                 <div className="aspect-square rounded-2xl overflow-hidden mb-3">
-                  <img src="/tray.jpg" alt="Miniature" className="w-full h-full object-cover" />
+                  <img src="/images/earrings.jpg" alt="Miniature" className="w-full h-full object-cover" />
                 </div>
                 <div className="px-2">
                   <p className="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">New Arrival</p>
-                  <p className="text-xs font-bold text-gray-900 dark:text-white">Oceanic Resin Tray</p>
+                  <p className="text-xs font-bold text-gray-900 dark:text-white">Resin Earrings - Teal Drops</p>
                 </div>
               </motion.div>
               
