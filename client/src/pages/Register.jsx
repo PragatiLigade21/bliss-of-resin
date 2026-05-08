@@ -65,7 +65,7 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4">
+    <div className="flex-1 flex items-center justify-center py-16 md:py-24 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

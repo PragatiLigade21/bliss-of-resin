@@ -32,7 +32,7 @@ function Cart() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div className="flex-1 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}
       <section className="bg-white dark:bg-gray-800 py-8 md:py-16 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">

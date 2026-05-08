@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 
 function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
+    <div className="flex-1 bg-white dark:bg-gray-900 overflow-hidden">
       {/* Hero Section */}
       <Hero />
 

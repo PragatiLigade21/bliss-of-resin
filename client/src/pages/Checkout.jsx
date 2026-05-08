@@ -28,7 +28,7 @@ function Checkout() {
   // Check if cart is empty
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <Card className="text-center max-w-md">
           <motion.div
             whileHover={{ scale: 1.1 }}
@@ -162,7 +162,7 @@ function Checkout() {
   // Success State
   if (orderPlaced) {
     return (
-      <div className="min-h-screen bg-gradient-light dark:bg-gray-900 flex items-center justify-center py-12 transition-colors duration-300">
+      <div className="flex-1 bg-gradient-light dark:bg-gray-900 flex items-center justify-center py-12 transition-colors duration-300">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -196,7 +196,7 @@ function Checkout() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div className="flex-1 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}
       <section className="bg-white dark:bg-gray-800 py-8 md:py-16 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">

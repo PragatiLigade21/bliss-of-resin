@@ -149,7 +149,7 @@ function Shop() {
   const activeProducts = Array.isArray(products) ? products : [];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className="flex-1 bg-white dark:bg-gray-900 transition-colors duration-300">
       {/* Premium Header */}
       <section className="bg-[#FDF8F5] dark:bg-gray-800 py-16 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

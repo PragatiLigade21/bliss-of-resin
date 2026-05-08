@@ -4,7 +4,7 @@ import { Heart, ShieldCheck, Sparkles, Award } from "lucide-react";
 
 function About() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="flex-1 bg-white">
       {/* Hero */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">

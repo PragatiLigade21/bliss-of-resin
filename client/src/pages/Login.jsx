@@ -60,9 +60,9 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col lg:flex-row transition-colors duration-500">
+    <div className="flex-1 flex flex-col lg:flex-row transition-colors duration-500">
       {/* Left Section: Visual/Branding (Desktop Only) */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#2C2420] p-20 flex-col justify-between relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-[#2C2420] p-16 xl:p-20 flex-col justify-between relative overflow-hidden min-h-[600px]">
         <div className="relative z-10">
           <Link to="/" className="inline-block group">
             <span className="text-3xl font-black text-white uppercase tracking-tighter" style={{ fontFamily: 'Playfair Display, serif' }}>
